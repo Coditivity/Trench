@@ -1,0 +1,364 @@
+fileFormatVersion: 2
+guid: d76b385c38001c94f92270535b393e8d
+timeCreated: 1483540248
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: PistolFireSheet_0
+    21300002: PistolFireSheet_1
+    21300004: PistolFireSheet_2
+    21300006: PistolFireSheet_3
+    21300008: PistolFireSheet_4
+    21300010: PistolFireSheet_5
+    21300012: PistolFireSheet_6
+    21300014: PistolFireSheet_7
+    21300016: PistolFireSheet_8
+    21300018: PistolFireSheet_9
+    21300020: PistolFireSheet_10
+    21300022: PistolFireSheet_11
+    21300024: PistolFireSheet_12
+    21300026: PistolFireSheet_13
+    21300028: PistolFireSheet_14
+    21300030: PistolFireSheet_15
+    21300032: PistolFireSheet_16
+    21300034: PistolFireSheet_17
+    21300036: PistolFireSheet_18
+    21300038: PistolFireSheet_19
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 0
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: PistolFireSheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 799
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_1
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 799
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_2
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 799
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_3
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 799
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_4
+      rect:
+        serializedVersion: 2
+        x: 1440
+        y: 799
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 574
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_6
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 574
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_7
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 574
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_8
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 574
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_9
+      rect:
+        serializedVersion: 2
+        x: 1440
+        y: 574
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 349
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_11
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 349
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_12
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 349
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_13
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 349
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_14
+      rect:
+        serializedVersion: 2
+        x: 1440
+        y: 349
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 124
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_16
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 124
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_17
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 124
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_18
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 124
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PistolFireSheet_19
+      rect:
+        serializedVersion: 2
+        x: 1440
+        y: 124
+        width: 360
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
