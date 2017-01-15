@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -41,9 +42,11 @@ public class Inventory : MonoBehaviour {
             _weaponDatas[i] = new WeaponInventoryData();
         }
     }
+
+    private bool[] _weaponAvailability;
 	// Use this for initialization
 	void Start () {
-		
+        _weaponAvailability = new bool[Enum.GetNames(typeof(WeaponBase.WeaponType)).Length + 1];
 	}
 	
 	// Update is called once per frame
@@ -53,14 +56,20 @@ public class Inventory : MonoBehaviour {
 
     public void OnWeaponPickup(WeaponPickup weaponPickup)
     {
-        AddWeaponToInventory(weaponPickup);
+        AddWeaponToInventory(weaponPickup, true);
+    }
+
+    
+    public bool IsWeaponInInventory(WeaponBase.WeaponType weaponType)
+    {
+        return _weaponAvailability[(int)weaponType];
     }
 
     /// <summary>
     /// Add a weapon to inventory if a weapon of that type is not present already
     /// </summary>
     /// <param name="weapon"></param>
-    private void AddWeaponToInventory(WeaponPickup weaponPickup)
+    public void AddWeaponToInventory(WeaponPickup weaponPickup, bool notifyPlayer)
     {
         bool isWeaponAlreadyAdded = false; //is a weapon with the same type already in the inventory
         int firstFreeInventoryWeaponDataIndex = -1; //represents the index of the first weaponinventoryData object in the array which has isWeaponInInventory set to false
@@ -85,8 +94,12 @@ public class Inventory : MonoBehaviour {
         {
             _weaponDatas[firstFreeInventoryWeaponDataIndex].weaponType = weaponPickup.weaponType;
             _weaponDatas[firstFreeInventoryWeaponDataIndex].isWeaponInInventory = true;
-            PlayerMain.Instance.OnWeaponPickup(weaponPickup);
-            Debug.LogError("Adding " + weaponPickup.weaponType + " to inventory");
+            _weaponAvailability[(int)weaponPickup.weaponType] = true;
+            if (notifyPlayer)
+            {
+                PlayerMain.Instance.OnWeaponPickup(weaponPickup);
+            }
+          //  Debug.LogError("Adding " + weaponPickup.weaponType + " to inventory");
         }
         else
         {

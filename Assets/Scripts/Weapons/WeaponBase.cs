@@ -14,7 +14,7 @@ public class WeaponBase {
         Shotgun=2,
         MachineGun=3
     }
-
+    
     /// <summary>
     /// Type of this weapon
     /// </summary>
@@ -30,5 +30,9 @@ public class WeaponBase {
     /// If enabled, will fire weapon automatically if fire button is held
     /// </summary>
     public bool autoFire = true;
-    public float swayIntensity = 1;   
+    public float swayIntensity = 1;
+    public AudioClip audioClipWield;
+    public AudioClip audioClipUnwield;
+
+    
 }

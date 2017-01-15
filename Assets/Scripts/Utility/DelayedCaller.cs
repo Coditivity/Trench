@@ -68,17 +68,36 @@ public class DelayedCaller : MonoBehaviour {
             _delayedCalls[i].isRunning = false;
         }
     }
-    public void AddDelayedCall(UnityAction action, float delay)
+
+    /// <summary>
+    /// Call a function after the specified delay
+    /// </summary>
+    /// <param name="action">The function to call</param>
+    /// <param name="delay">Delay in seconds after which the function will be called</param>
+    /// <returns>Returns the index at which the function was added to the array. Use this index to remove a delayed call if needed</returns>
+    public int AddDelayedCall(UnityAction action, float delay)
     {
         for (int i=0;i<_bufferSize;i++)
         {
             if(!_delayedCalls[i].isRunning)
             {
                 _delayedCalls[i].Init(action, delay);
-                return;
+                return i;
             }
-        }
+        }        
         Debug.LogError("Buffer is full. Consider increasing the buffer size");
+        return -1;
+    }
+
+
+    /// <summary>
+    /// Remove a delayed call at the specified index
+    /// </summary>
+    /// <param name="index">The index of the function in the array. This value is returned when AddDelayedCall is called</param>
+
+    public void RemoveDelayedCall(int index)
+    {
+        _delayedCalls[index].isRunning = false;
     }
 
     private void UpdateAndInvokeCalls()

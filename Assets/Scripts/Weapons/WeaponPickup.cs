@@ -6,6 +6,16 @@ public class WeaponPickup : MonoBehaviour {
 
     [SerializeField]
     WeaponBase.WeaponType _weaponType;
+    [SerializeField]
+    AudioClip _audioClipPickup = null;
+
+    public AudioClip AudioClipPickup
+    {
+        get
+        {
+            return _audioClipPickup;
+        }
+    }
 
     public WeaponBase.WeaponType weaponType
     {
@@ -31,5 +41,6 @@ public class WeaponPickup : MonoBehaviour {
     void OnTriggerEnter(Collider collider)
     {
         Inventory.Instance.OnWeaponPickup(this);
+        gameObject.SetActive(false);
     }
 }
