@@ -9,7 +9,8 @@ public class AnimatorStates : MonoBehaviour {
     public enum AnimationParameter 
     {
         Fire=0,
-        Unwield=1
+        Unwield=1,
+        FireStop=2
     }
 
     

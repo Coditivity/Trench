@@ -35,6 +35,14 @@ public class PlayerMain : MonoBehaviour {
     /// Current weapon used by the player
     /// </summary>
     WeaponBase _activeWeapon = null;
+    public WeaponBase ActiveWeapon
+    {
+        get
+        {
+            return _activeWeapon;
+        }
+    }
+
 	// Use this for initialization
 	void Start () {
         _activeWeapon = WeaponsManager.Instance.GetWeapon(WeaponBase.WeaponType.Pistol); //set pistol as the active weapon
@@ -83,6 +91,13 @@ public class PlayerMain : MonoBehaviour {
 
     int _prevDelayedCallWeaponChange = -1;
     bool _isWeaponBeingSwitched = false;
+    public bool IsWeaponBeingSwitched
+    {
+        get
+        {
+            return _isWeaponBeingSwitched;
+        }
+    }
     /// <summary>
     /// Function to make the player switch to another weapon
     /// </summary>

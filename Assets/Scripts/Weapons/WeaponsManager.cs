@@ -46,7 +46,10 @@ public class WeaponsManager : MonoBehaviour {
     private WeaponBase[] _indexedWeapons = null;
 	// Use this for initialization
 	void Start () {
-        
+        foreach(WeaponBase wb in _weapons)
+        {
+            wb.Init();
+        }
 	}
 	
 	// Update is called once per frame
