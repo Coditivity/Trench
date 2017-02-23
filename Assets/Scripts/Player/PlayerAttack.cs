@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class PlayerAttack : MonoBehaviour {
     private static PlayerAttack s_instance = null;
@@ -18,10 +19,15 @@ public class PlayerAttack : MonoBehaviour {
     }
     [SerializeField]
     private GameObject _crossHairObject = null;
+
+    [SerializeField]
+    private GameObject _ammoShellParent = null;
     void Awake()
     {
         s_instance = this;
     }
+    [SerializeField]
+    private FirstPersonController _firstPersonController = null;
 
     RectTransform _crossHairRectTransform = null;
 	// Use this for initialization
@@ -66,39 +72,52 @@ public class PlayerAttack : MonoBehaviour {
         if(!PlayerMain.Instance.IsWeaponBeingSwitched)
         {
             _bIsPrimaryAttackKeyHeld = true;
+            AnimatorStates.ResetTrigger(AnimatorStates.AnimationParameter.FireStop, PlayerMain.Instance.ActiveWeapon.weaponType);
             AnimatorStates.Set(AnimatorStates.AnimationParameter.Fire, PlayerMain.Instance.ActiveWeapon.weaponType);
-            FireWeapon();
+
+            /*   WeaponBase activePlayerWeapon = PlayerMain.Instance.ActiveWeapon;
+               SoundManager.Instance.PlayAudio(activePlayerWeapon.audioSourceFire, activePlayerWeapon.audioClipFire);
+               for (int i=0;i<PlayerMain.Instance.ActiveWeapon.projectilePerShot;i++) {
+                   FireWeapon();
+               }*/
+            OnPrimaryAttackHeld();
         }
+       
     }
 
     private void FireWeapon()
     {
+       // _cameraAnimator.SetTrigger("Fire");
         _timeAtPrimaryAttack = Time.time; 
         RayCastBullet(); //ray cast and fire bullet hit event
-        WeaponBase activePlayerWeapon = PlayerMain.Instance.ActiveWeapon;
-
-        WeaponBase.Shell shell = activePlayerWeapon.shellPool.getNext();// GameObject.Instantiate(activePlayerWeapon.shellObject);
-      
-        if(shell == null)
-        {
-            return;
-        }
-        shell.gameObject.SetActive(true);
-        Vector3 shellDirection = (activePlayerWeapon.shellEjectionTowardsDirection.transform.position
-            - activePlayerWeapon.shellEjectionPoint.transform.position).normalized;
-        shell.gameObject.transform.position = activePlayerWeapon.shellEjectionPoint.transform.position;
-        shell.rigidBody.AddForce
-            (shellDirection * activePlayerWeapon.shellEjectionForceMagnitude);
+     
+        //Debug.LogError(PlayerMain.Instance.GetInstantaenousVelocity());
+      //  Debug.LogError((activePlayerWeapon.shellEjectionForceMagnitude + PlayerMain.Instance.GetInstantaenousVelocity() * 600));
+       // shell.rigidBody.velocity += PlayerMain.Instance.GetInstantaenousVelocity();
         
         
     }
 
+
+    private UnityEvent _onPrimaryAttackListener = new UnityEvent();
+    public UnityEvent OnPrimaryAttackListener
+    {
+        get
+        {
+            return _onPrimaryAttackListener;
+           
+        }
+        private set
+        {
+            _onPrimaryAttackListener = value;
+        }
+    }
     /// <summary>
     /// Event that will be fired when the bullet hits something
     /// </summary>
-    public class RayHitEvent : UnityEvent<RaycastHit> { }
-    private RayHitEvent _onRayHitListener = new RayHitEvent();
-    public RayHitEvent OnRayHitListener
+    public class PrimaryAttackHitEvent : UnityEvent<RaycastHit> { }
+    private PrimaryAttackHitEvent _onRayHitListener = new PrimaryAttackHitEvent();
+    public PrimaryAttackHitEvent OnPrimaryAttackHitListener
     {
         get
         {
@@ -130,15 +149,21 @@ public class PlayerAttack : MonoBehaviour {
             + _crossHairRectTransform.anchoredPosition.x;
         float cursorY = _crossHairRectTransform.anchorMax.y * Screen.height
             + _crossHairRectTransform.anchoredPosition.y;
-        Vector3 cursorScreenPosition = new Vector3(cursorX, cursorY, 0);
+        float spreadX = Random.Range(-PlayerMain.Instance.ActiveWeapon.spread, PlayerMain.Instance.ActiveWeapon.spread);//get a random spread value limited by the weapon's max spread
+        float spreadY = Random.Range(-PlayerMain.Instance.ActiveWeapon.spread, PlayerMain.Instance.ActiveWeapon.spread);//get a random spread value limited by the weapon's max spread
+ 
+        
+        Vector3 cursorScreenPosition = new Vector3(cursorX, cursorY, 0) //add the spread to the cursor position to create inaccuracy
+            + new Vector3(spreadX, spreadY, 0);
         Ray ray = Camera.main.ScreenPointToRay(cursorScreenPosition);
         if (Physics.Raycast(ray, out bulletRayCastHit))
         {
             
-            OnRayHitListener.Invoke(bulletRayCastHit);
-            GameObject g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            OnPrimaryAttackHitListener.Invoke(bulletRayCastHit);
+         /*   GameObject g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             g.transform.localScale = Vector3.one * .2f;
-            g.transform.position = bulletRayCastHit.point;
+            g.transform.position = bulletRayCastHit.point;*/
+          //  Debug.LogError(VisualEffectsManager.Instance.GetDecalSprite(bulletRayCastHit.collider.gameObject));
         }
     }
 
@@ -151,22 +176,80 @@ public class PlayerAttack : MonoBehaviour {
         {
             return;
         }
-        FireWeapon();
+        WeaponBase activePlayerWeapon = PlayerMain.Instance.ActiveWeapon;
+        SoundManager.Instance.PlayAudio(activePlayerWeapon.audioSourceFire, activePlayerWeapon.audioClipFire);
+
+        _onPrimaryAttackListener.Invoke();
+        
+
+
+        WeaponBase.Shell shell = activePlayerWeapon.shellPool.getNext();// GameObject.Instantiate(activePlayerWeapon.shellObject);
+        for (int i = 0; i < PlayerMain.Instance.ActiveWeapon.projectilePerShot; i++)
+        {
+            FireWeapon();
+        }
+
+        if (shell == null)
+        {
+            return;
+        }
+        shell.gameObject.SetActive(true);
+        Vector3 shellDirection = (activePlayerWeapon.shellEjectionTowardsDirection.transform.position
+            - activePlayerWeapon.shellEjectionPoint.transform.position).normalized
+            * activePlayerWeapon.shellEjectionForceMagnitude;
+          // + PlayerMain.Instance.GetPlayerMoveDirection();
+        shell.gameObject.transform.position = activePlayerWeapon.shellEjectionPoint.transform.position;
+        //shell.gameObject.transform.parent = _ammoShellParent.transform.parent;
+        /*  shell.rigidBody.AddForce
+              (shellDirection
+              
+              + PlayerMain.Instance.GetInstantaenousVelocity() * 700
+              )
+              );*/
+
+        Vector3 shellVelocity = shellDirection
+            + (_firstPersonController.GetInstantaneousVelocity());
+
+       
+         //   * activePlayerWeapon.shellEjectionForceMagnitude ;
+        
+        shell.rigidBody.velocity = shellVelocity;
+        
 
     }
 
-    private void OnPrimaryAttackEnd()
+
+    private UnityEvent _onPrimaryAttackEndListener = new UnityEvent();
+    public UnityEvent OnPrimaryAttackEndListener
+    {
+        get
+        {
+            return _onPrimaryAttackEndListener;
+        }
+        private set
+        {
+            _onPrimaryAttackEndListener = value;
+        }
+    }
+    public void OnPrimaryAttackEnd()
     {
         _bIsPrimaryAttackKeyHeld = false;
         AnimatorStates.Set(AnimatorStates.AnimationParameter.FireStop, PlayerMain.Instance.ActiveWeapon.weaponType);
+        _onPrimaryAttackEndListener.Invoke();
     }
 
+    Vector3 _prevPosition = Vector3.zero;
+    
+
 	// Update is called once per frame
-	void Update () {
+	void LateUpdate () {
 		if(_bIsPrimaryAttackKeyHeld && PlayerMain.Instance.ActiveWeapon.autoFire)
         {
             OnPrimaryAttackHeld();
         }
+        
+        
+       
 	}
 
     void OnDestroy()

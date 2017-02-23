@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour {
 
-    [SerializeField]
-    AudioSource _audioSourcePickup = null;
-    [SerializeField]
-    AudioSource _audioSourceWeaponChange = null;
-
 
     private static SoundManager s_instance = null;
     public static SoundManager Instance
@@ -22,6 +17,22 @@ public class SoundManager : MonoBehaviour {
             s_instance = value;
         }
     }
+
+    [SerializeField]
+    AudioSource _audioSourcePickup = null;
+    [SerializeField]
+    AudioSource _audioSourceWeaponChange = null;
+    [SerializeField]
+    EjectedShellAudioData[] _ejectedShellAudioDatas = null;
+    
+
+    [System.Serializable]
+    class EjectedShellAudioData
+    {
+        public WeaponBase.WeaponType weaponType;
+        public AudioClip audioClip;
+    }
+    
 
     void Awake()
     {
@@ -48,6 +59,17 @@ public class SoundManager : MonoBehaviour {
     {
         _audioSourcePickup.clip = audioClip;
         _audioSourcePickup.Play();
+    }
+
+    public void PlayAudio(AudioSource audioSource, AudioClip audioClip)
+    {
+      //  audioSource.clip = audioClip;
+        audioSource.PlayOneShot(audioClip);
+    }
+
+    public void PlayEjectedShellHitAudio(AudioSource audioSource, WeaponBase.WeaponType weaponType)
+    {
+        audioSource.PlayOneShot(_ejectedShellAudioDatas[((int)weaponType - 1)].audioClip);
     }
 
     void OnDestroy()

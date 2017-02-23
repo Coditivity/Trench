@@ -42,13 +42,48 @@ public class PlayerMain : MonoBehaviour {
             return _activeWeapon;
         }
     }
-
+    
 	// Use this for initialization
 	void Start () {
         _activeWeapon = WeaponsManager.Instance.GetWeapon(WeaponBase.WeaponType.Pistol); //set pistol as the active weapon
         Inventory.Instance.AddWeaponToInventory(_firstWeaponPickup, false);
+        _prevPosition = transform.position;
 	}
-	
+
+
+
+    public Vector3 GetPlayerMoveDirection()
+    {
+        return (transform.position - _prevPosition).normalized;
+        
+    }
+
+    /// <summary>
+    /// Returns the player's velocity in the previous frame
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 GetInstantaenousVelocity()
+    {
+        //get the direction of movement
+        //float vel = dir.magnitude;// * Mathf.Sign(Vector3.Dot(transform.right, dir)); //return the signed velocity magnitude
+        //return vel;
+        if(_lastTimeDelta == 0)
+        {
+            return Vector3.zero;
+        }
+        //   Debug.LogError("td>>" + _lastTimeDelta);
+        return _lastVelocity / _lastTimeDelta;
+       // return transform.position - _prevPosition;
+        
+    }
+
+    /// <summary>
+    /// Stores the last position of the player
+    /// </summary>
+    Vector3 _prevPosition = Vector3.zero;
+
+    Vector3 _lastVelocity = Vector3.zero;
+    float _lastTimeDelta = 1f;
 	// Update is called once per frame
 	void Update () {
         if (!_isWeaponBeingSwitched)
@@ -75,6 +110,13 @@ public class PlayerMain : MonoBehaviour {
                 }
             }
         }
+        Vector3 dir = (transform.position - _prevPosition).normalized;
+        float vel = (transform.position - _prevPosition).magnitude * Mathf.Sign(Vector3.Dot(transform.right, dir));
+
+        _lastVelocity = (transform.position - _prevPosition);
+        _lastTimeDelta = Time.deltaTime;
+        _prevPosition = transform.position;
+        
     }
 
     /// <summary>
@@ -106,6 +148,7 @@ public class PlayerMain : MonoBehaviour {
         
 
         _isWeaponBeingSwitched = true;
+        PlayerAttack.Instance.OnPrimaryAttackEnd();
         AnimatorStates.Set(AnimatorStates.AnimationParameter.Unwield, _activeWeapon.weaponType);
         SoundManager.Instance.PlayWeaponChange(_activeWeapon.audioClipUnwield);
         if(_prevDelayedCallWeaponChange!=-1)

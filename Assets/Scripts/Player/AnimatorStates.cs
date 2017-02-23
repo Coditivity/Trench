@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Serialization;
 
 public class AnimatorStates : MonoBehaviour {
 
@@ -10,39 +11,59 @@ public class AnimatorStates : MonoBehaviour {
     {
         Fire=0,
         Unwield=1,
-        FireStop=2
+        FireStop=2,
+        CameraShakePistol=3,
+        CameraShakeShotGun=4,
+        CameraShakeMachineGun=5
+
     }
 
     
     private static AnimatorStates s_instance = null;
-
+    [FormerlySerializedAs("_animators")]
     [SerializeField]
-    private Animator[] _animators = null;
+    private Animator[] _weaponAnimators = null;
+    
 
     [SerializeField]
     private AnimationParameterInfo[] animatorParameters = null;
 
+
+    public static void Set(AnimationParameter parameter, Animator animator)
+    {
+        s_instance.animatorParameters[(int)parameter].Set(animator);
+    }
+
+    public static void UnSet(AnimationParameter parameter, Animator animator)
+    {
+        s_instance.animatorParameters[(int)parameter].UnSet(animator);
+    }
+
+    public static void ResetTrigger(AnimationParameter parameter, Animator animator)
+    {
+        s_instance.animatorParameters[(int)parameter].ResetTrigger(animator);
+    }
     public static void Set(AnimationParameter parameter, WeaponBase.WeaponType weaponType)
     {
-        s_instance.animatorParameters[(int)parameter].Set(s_instance._animators[(int)weaponType-1]);
+        s_instance.animatorParameters[(int)parameter].Set(s_instance._weaponAnimators[(int)weaponType-1]);
 
     }
 
     public static void UnSet(AnimationParameter parameter, WeaponBase.WeaponType weaponType)
     {
-        s_instance.animatorParameters[(int)parameter].UnSet(s_instance._animators[(int)weaponType-1]);
+        s_instance.animatorParameters[(int)parameter].UnSet(s_instance._weaponAnimators[(int)weaponType-1]);
     }
 
     public static void ResetTrigger(AnimationParameter parameter, WeaponBase.WeaponType weaponType)
     {
-        s_instance.animatorParameters[(int)parameter].ResetTrigger(s_instance._animators[(int)weaponType-1]);
+        s_instance.animatorParameters[(int)parameter].ResetTrigger(s_instance._weaponAnimators[(int)weaponType-1]);
     }
 
     
 
     public static bool GetBool(AnimationParameter parameter, WeaponBase.WeaponType weaponType)
     {
-        return s_instance.animatorParameters[(int)parameter].GetBool(s_instance._animators[(int)weaponType]);
+        return s_instance.animatorParameters[(int)parameter].GetBool(s_instance._weaponAnimators[(int)weaponType]);
     }
 
     public static bool Compare(Animator animator, int layerIndex, AnimationParameter parameter1

@@ -42,7 +42,7 @@ public class WeaponBase {
     /// </summary>
     public bool autoFire = true;
     public float swayIntensity = 1;
-    public GameObject shellObject = null;
+    public GameObject[] shellObjects = null;
     public GameObject shellEjectionPoint;
     /// <summary>
     /// The direction in which the shell is ejected is calculated from shellEjectionPoint and this
@@ -51,8 +51,11 @@ public class WeaponBase {
     public float shellEjectionForceMagnitude;
     public AudioClip audioClipWield;
     public AudioClip audioClipUnwield;
+    public AudioClip audioClipFire;
+    public AudioSource audioSourceFire;
     public int shellPoolSize = 50;
     public LList<Shell> shellPool;
+    public AnimatorStates.AnimationParameter cameraShakeAnimationParameter;
 
     public class Shell
     {
@@ -63,21 +66,29 @@ public class WeaponBase {
         {
             this.gameObject = gameObject;
             rigidBody = gameObject.GetComponent<Rigidbody>(); //cache the gameobject's rigidbidy for faster access
+        
         }
     }
 
+    const string NoShellErrorMessage = "No shell eject prefab was given for the weapon ";
     public void Init()
     {
 
         shellPool = new LList<Shell>(shellPoolSize);
-        if (shellObject == null)
+        if (shellObjects == null )
         {
+            Debug.LogError(NoShellErrorMessage + weaponType);
+            return;
+        }
+        if(shellObjects.Length<=0)
+        {
+            Debug.LogError(NoShellErrorMessage + weaponType);
             return;
         }
         for (int i=0;i<shellPoolSize;i++)
         {
-            
-            GameObject shellObjectInstance = GameObject.Instantiate(shellObject);
+            int randomIndex = Random.Range(0, shellObjects.Length);
+            GameObject shellObjectInstance = GameObject.Instantiate(shellObjects[randomIndex]);
             shellObjectInstance.SetActive(false);
             Shell shell = new Shell(shellObjectInstance);
             shellPool.AddNext(shell);
