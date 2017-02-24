@@ -48,7 +48,11 @@ public class WeaponBase {
     /// The direction in which the shell is ejected is calculated from shellEjectionPoint and this
     /// </summary>
     public GameObject shellEjectionTowardsDirection;
-    public float shellEjectionForceMagnitude;
+    public float shellEjectionForceMagnitudeMin;
+    public float shellEjectionForceMagnitudeMax;
+    public float shellEjectDelay = 0;
+    public GameObject smokeSpawnPoint;
+    public GameObject muzzleFlashSpawnPoint;
     public AudioClip audioClipWield;
     public AudioClip audioClipUnwield;
     public AudioClip audioClipFire;

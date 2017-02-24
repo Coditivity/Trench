@@ -5,10 +5,10 @@ using UnityEngine;
 public class VisualEffects : MonoBehaviour {
 
 
-    [SerializeField]
+   /* [SerializeField]
     private GameObject smokeEffectPosition = null;
     [SerializeField]
-    private GameObject muzzleFlashPosition = null;
+    private GameObject muzzleFlashPosition = null;*/
     [SerializeField]
     private Animator _mainCameraAnimator = null;
 
@@ -33,10 +33,11 @@ public class VisualEffects : MonoBehaviour {
         // smoke.SetActive(true);
         //  smoke.transform.position = smokeEffectPosition.transform.position;
         //  smoke.GetComponent<ParticleSystem>().Play();
+        WeaponBase activeWeapon = PlayerMain.Instance.ActiveWeapon;
         GameObject smokeInstance = Instantiate(smoke);
         smokeInstance.SetActive(true);
-        smoke.transform.parent = smokeEffectPosition.transform.parent;
-        smoke.transform.position = smokeEffectPosition.transform.position;
+        smoke.transform.parent = activeWeapon.smokeSpawnPoint.transform.parent;
+        smoke.transform.position = activeWeapon.smokeSpawnPoint.transform.position;
         ParticleSystem ps = smoke.GetComponent<ParticleSystem>();
         ps.Play();
         Destroy(smokeInstance, ps.main.duration);
@@ -44,8 +45,8 @@ public class VisualEffects : MonoBehaviour {
 
         GameObject muzzleFlash = VisualEffectsManager.Instance.GetMuzzleFlashObject();
         muzzleFlash.SetActive(true);
-        muzzleFlash.transform.parent = muzzleFlashPosition.transform.parent;
-        muzzleFlash.transform.position = muzzleFlashPosition.transform.position;
+        muzzleFlash.transform.parent = activeWeapon.muzzleFlashSpawnPoint.transform.parent;
+        muzzleFlash.transform.position = activeWeapon.muzzleFlashSpawnPoint.transform.position;
 
         muzzleFlash.GetComponent<ParticleSystem>().Play();
 

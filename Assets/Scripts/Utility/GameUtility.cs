@@ -11,6 +11,8 @@ public class GameUtility : MonoBehaviour {
 
     public static void PauseEditor()
     {
+#if UNITY_EDITOR
         EditorApplication.isPaused = true;
+#endif
     }
 }

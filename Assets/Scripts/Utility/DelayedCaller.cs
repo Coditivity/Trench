@@ -114,7 +114,7 @@ public class DelayedCaller : MonoBehaviour {
         }
     }
     // Update is called once per frame
-    void Update () {
+    void LateUpdate () {
         UpdateAndInvokeCalls();
 	}
 }

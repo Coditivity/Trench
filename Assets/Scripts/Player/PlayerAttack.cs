@@ -167,6 +167,37 @@ public class PlayerAttack : MonoBehaviour {
         }
     }
 
+
+    private void EjectShell()
+    {
+        WeaponBase activePlayerWeapon = PlayerMain.Instance.ActiveWeapon;
+        WeaponBase.Shell shell = activePlayerWeapon.shellPool.getNext();// GameObject.Instantiate(activePlayerWeapon.shellObject);
+        shell.gameObject.SetActive(true);
+        float ejectMagnitude = Random.Range(activePlayerWeapon.shellEjectionForceMagnitudeMin
+            , activePlayerWeapon.shellEjectionForceMagnitudeMax);
+        Vector3 shellDirection = (activePlayerWeapon.shellEjectionTowardsDirection.transform.position
+            - activePlayerWeapon.shellEjectionPoint.transform.position).normalized
+            * ejectMagnitude;
+        // + PlayerMain.Instance.GetPlayerMoveDirection();
+        shell.gameObject.transform.position = activePlayerWeapon.shellEjectionPoint.transform.position;
+        //shell.gameObject.transform.parent = _ammoShellParent.transform.parent;
+        /*  shell.rigidBody.AddForce
+              (shellDirection
+              
+              + PlayerMain.Instance.GetInstantaenousVelocity() * 700
+              )
+              );*/
+
+        Vector3 shellVelocity = shellDirection
+            + (_firstPersonController.GetInstantaneousVelocity());
+
+
+        //   * activePlayerWeapon.shellEjectionForceMagnitude ;
+
+        shell.rigidBody.velocity = shellVelocity;
+
+    }
+
     /// <summary>
     /// If the primary attack key was held, this will be called for all auto-attack weapons. If the fire cooldown has been reached, trigger the fire event
     /// </summary>
@@ -183,38 +214,13 @@ public class PlayerAttack : MonoBehaviour {
         
 
 
-        WeaponBase.Shell shell = activePlayerWeapon.shellPool.getNext();// GameObject.Instantiate(activePlayerWeapon.shellObject);
+       
         for (int i = 0; i < PlayerMain.Instance.ActiveWeapon.projectilePerShot; i++)
         {
             FireWeapon();
         }
-
-        if (shell == null)
-        {
-            return;
-        }
-        shell.gameObject.SetActive(true);
-        Vector3 shellDirection = (activePlayerWeapon.shellEjectionTowardsDirection.transform.position
-            - activePlayerWeapon.shellEjectionPoint.transform.position).normalized
-            * activePlayerWeapon.shellEjectionForceMagnitude;
-          // + PlayerMain.Instance.GetPlayerMoveDirection();
-        shell.gameObject.transform.position = activePlayerWeapon.shellEjectionPoint.transform.position;
-        //shell.gameObject.transform.parent = _ammoShellParent.transform.parent;
-        /*  shell.rigidBody.AddForce
-              (shellDirection
-              
-              + PlayerMain.Instance.GetInstantaenousVelocity() * 700
-              )
-              );*/
-
-        Vector3 shellVelocity = shellDirection
-            + (_firstPersonController.GetInstantaneousVelocity());
-
-       
-         //   * activePlayerWeapon.shellEjectionForceMagnitude ;
-        
-        shell.rigidBody.velocity = shellVelocity;
-        
+        DelayedCaller.Instance.AddDelayedCall(EjectShell, activePlayerWeapon.shellEjectDelay);
+    
 
     }
 
@@ -235,6 +241,7 @@ public class PlayerAttack : MonoBehaviour {
     {
         _bIsPrimaryAttackKeyHeld = false;
         AnimatorStates.Set(AnimatorStates.AnimationParameter.FireStop, PlayerMain.Instance.ActiveWeapon.weaponType);
+        AnimatorStates.ResetTrigger(AnimatorStates.AnimationParameter.Fire, PlayerMain.Instance.ActiveWeapon.weaponType);
         _onPrimaryAttackEndListener.Invoke();
     }
 
