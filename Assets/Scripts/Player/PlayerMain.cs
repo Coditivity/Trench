@@ -112,7 +112,7 @@ public class PlayerMain : MonoBehaviour {
             }
         }
         Vector3 dir = (transform.position - _prevPosition).normalized;
-        float vel = (transform.position - _prevPosition).magnitude * Mathf.Sign(Vector3.Dot(transform.right, dir));
+       // float vel = (transform.position - _prevPosition).magnitude * Mathf.Sign(Vector3.Dot(transform.right, dir));
 
         _lastVelocity = (transform.position - _prevPosition);
         _lastTimeDelta = Time.deltaTime;
@@ -121,7 +121,7 @@ public class PlayerMain : MonoBehaviour {
     }
 
     /// <summary>
-    /// Called when player picks up/hits a weapon
+    /// Called when player picks up/hits a weapon-pickup
     /// </summary>
     /// <param name="weapon"></param>
     public void OnWeaponPickup(WeaponPickup weapon)

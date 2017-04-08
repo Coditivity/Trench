@@ -252,8 +252,8 @@ public class LList<T> where T : new()
         ageEs[0] = es[last];
         orderEs[numElements - 1] = es[last];
         es[last].order = numElements - 1;
-        int iter = es[last].prev;
-        int count = 1;
+     //   int iter = es[last].prev;
+      //  int count = 1;
        /* while (iter != -1)
         {
             count++;
@@ -336,8 +336,8 @@ public class LList<T> where T : new()
         ageEs[0] = es[last];
         orderEs[numElements - 1] = es[last];
         es[last].order = numElements - 1;
-        int iter = es[last].prev;
-        int count = 1;
+     //   int iter = es[last].prev;
+    //    int count = 1;
      /*   while (iter != -1)
         {
             count++;

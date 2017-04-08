@@ -18,9 +18,10 @@ public class VisualEffects : MonoBehaviour {
         PlayerAttack.Instance.OnPrimaryAttackListener.AddListener(OnPrimaryAttackCallBack);
         PlayerAttack.Instance.OnPrimaryAttackEndListener.AddListener(OnPrimaryAttackEndCallBack);
     }
-	
 
-    
+
+
+    GameObject prevSmoke = null;
     /// <summary>
     /// Called when the player attacks
     /// </summary>
@@ -30,17 +31,25 @@ public class VisualEffects : MonoBehaviour {
         AnimatorStates.Set(PlayerMain.Instance.ActiveWeapon.cameraShakeAnimationParameter, _mainCameraAnimator);
 
         GameObject smoke = VisualEffectsManager.Instance.GetSmokePoolObject();
+       
+        prevSmoke = smoke;
         // smoke.SetActive(true);
         //  smoke.transform.position = smokeEffectPosition.transform.position;
         //  smoke.GetComponent<ParticleSystem>().Play();
         WeaponBase activeWeapon = PlayerMain.Instance.ActiveWeapon;
-        GameObject smokeInstance = Instantiate(smoke);
-        smokeInstance.SetActive(true);
-        smoke.transform.parent = activeWeapon.smokeSpawnPoint.transform.parent;
+        /*    GameObject smokeInstance = Instantiate(smoke);
+            smokeInstance.SetActive(true);
+            smokeInstance.transform.parent = activeWeapon.smokeSpawnPoint.transform.parent;
+            smokeInstance.transform.position = activeWeapon.smokeSpawnPoint.transform.position;*/
+        smoke.SetActive(true);
+        ///smoke.transform.parent = activeWeapon.smokeSpawnPoint.transform.parent;
         smoke.transform.position = activeWeapon.smokeSpawnPoint.transform.position;
         ParticleSystem ps = smoke.GetComponent<ParticleSystem>();
+        //ps.gameObject.SetActive(true);
         ps.Play();
-        Destroy(smokeInstance, ps.main.duration);
+        
+        DelayedCaller.Instance.AddDelayedCall(() => { ps.Stop(); /*ps.Clear();*/ },  ps.main.duration/160f);
+        //Destroy(smokeInstance, ps.main.duration/20);
 
 
         GameObject muzzleFlash = VisualEffectsManager.Instance.GetMuzzleFlashObject();
@@ -54,19 +63,24 @@ public class VisualEffects : MonoBehaviour {
 
     }
 
+   
+
     /// <summary>
     /// CallBack received the when the player attack hits something
     /// </summary>
-    void OnPrimaryAttackHitCallBack(RaycastHit bulletRayCastHit)
+    void OnPrimaryAttackHitCallBack(AttackHitData attackHitData)
     {
-        GameObject decal = VisualEffectsManager.Instance.GetDecalSprite(bulletRayCastHit.collider.gameObject);
+        GameObject decal = VisualEffectsManager.Instance.GetDecalSprite(attackHitData.raycastHit.collider.gameObject);
         if(decal!=null)
         {
             decal.SetActive(true);
-            decal.transform.forward = bulletRayCastHit.normal;
-            decal.transform.position = bulletRayCastHit.point + decal.transform.forward * .01f;
+            decal.transform.forward = attackHitData.raycastHit.normal;
+            decal.transform.position = attackHitData.raycastHit.point + decal.transform.forward * .01f;
             decal.GetComponent<ParticleSystem>().Play();
         }
+      /*  GameObject testSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        testSphere.transform.localScale = Vector3.one * .05f;
+        testSphere.transform.position = bulletRayCastHit.point;*/
 
       
 

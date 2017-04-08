@@ -19,9 +19,7 @@ public class PlayerAttack : MonoBehaviour {
     }
     [SerializeField]
     private GameObject _crossHairObject = null;
-
-    [SerializeField]
-    private GameObject _ammoShellParent = null;
+    
     void Awake()
     {
         s_instance = this;
@@ -85,11 +83,11 @@ public class PlayerAttack : MonoBehaviour {
        
     }
 
-    private void FireWeapon()
+    private void FireWeapon(bool bLastProjectile)
     {
        // _cameraAnimator.SetTrigger("Fire");
         _timeAtPrimaryAttack = Time.time; 
-        RayCastBullet(); //ray cast and fire bullet hit event
+        RayCastBullet(bLastProjectile); //ray cast and fire bullet hit event
      
         //Debug.LogError(PlayerMain.Instance.GetInstantaenousVelocity());
       //  Debug.LogError((activePlayerWeapon.shellEjectionForceMagnitude + PlayerMain.Instance.GetInstantaenousVelocity() * 600));
@@ -99,7 +97,7 @@ public class PlayerAttack : MonoBehaviour {
     }
 
 
-    private UnityEvent _onPrimaryAttackListener = new UnityEvent();
+    private UnityEvent _onPrimaryAttackListener = new UnityEvent();  
     public UnityEvent OnPrimaryAttackListener
     {
         get
@@ -112,10 +110,13 @@ public class PlayerAttack : MonoBehaviour {
             _onPrimaryAttackListener = value;
         }
     }
+
+
+    
     /// <summary>
     /// Event that will be fired when the bullet hits something
     /// </summary>
-    public class PrimaryAttackHitEvent : UnityEvent<RaycastHit> { }
+    public class PrimaryAttackHitEvent : UnityEvent<AttackHitData> { }
     private PrimaryAttackHitEvent _onRayHitListener = new PrimaryAttackHitEvent();
     public PrimaryAttackHitEvent OnPrimaryAttackHitListener
     {
@@ -138,7 +139,7 @@ public class PlayerAttack : MonoBehaviour {
     /// <summary>
     /// Check if the bullet collides with something, and if it does fire an event
     /// </summary>
-    private void RayCastBullet()
+    private void RayCastBullet(bool bLastProjectile)
     {
         
         if((_crossHairRectTransform.anchorMax - _crossHairRectTransform.anchorMin).magnitude > .01f)
@@ -159,7 +160,7 @@ public class PlayerAttack : MonoBehaviour {
         if (Physics.Raycast(ray, out bulletRayCastHit))
         {
             
-            OnPrimaryAttackHitListener.Invoke(bulletRayCastHit);
+            OnPrimaryAttackHitListener.Invoke(new AttackHitData(bulletRayCastHit, PlayerMain.Instance.ActiveWeapon.damage, bLastProjectile));
          /*   GameObject g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             g.transform.localScale = Vector3.one * .2f;
             g.transform.position = bulletRayCastHit.point;*/
@@ -217,7 +218,8 @@ public class PlayerAttack : MonoBehaviour {
        
         for (int i = 0; i < PlayerMain.Instance.ActiveWeapon.projectilePerShot; i++)
         {
-            FireWeapon();
+            bool bLastProjectile = (i == PlayerMain.Instance.ActiveWeapon.projectilePerShot - 1) ? true : false;
+            FireWeapon(bLastProjectile);
         }
         DelayedCaller.Instance.AddDelayedCall(EjectShell, activePlayerWeapon.shellEjectDelay);
     
@@ -244,8 +246,7 @@ public class PlayerAttack : MonoBehaviour {
         AnimatorStates.ResetTrigger(AnimatorStates.AnimationParameter.Fire, PlayerMain.Instance.ActiveWeapon.weaponType);
         _onPrimaryAttackEndListener.Invoke();
     }
-
-    Vector3 _prevPosition = Vector3.zero;
+    
     
 
 	// Update is called once per frame

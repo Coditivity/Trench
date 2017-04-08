@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class WeaponBase {
+public class WeaponBase { 
 
     /// <summary>
     /// Enum for all the weapon types. Integer values represent the ranks
@@ -24,6 +24,10 @@ public class WeaponBase {
     /// </summary>
     public float fireRate = 3f;
 
+    /// <summary>
+    /// Amount of damage done by the weapon per projectile. Multiply this with projectile per shot to get the effective damage per shot
+    /// </summary>
+    public int damage = 1;
     /// <summary>
     /// Returns the time taken for a shot to complete
     /// </summary>

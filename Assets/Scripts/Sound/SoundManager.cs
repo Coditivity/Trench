@@ -29,8 +29,8 @@ public class SoundManager : MonoBehaviour {
     [System.Serializable]
     class EjectedShellAudioData
     {
-        public WeaponBase.WeaponType weaponType;
-        public AudioClip audioClip;
+        public WeaponBase.WeaponType weaponType = 0;
+        public AudioClip audioClip = null;
     }
     
 

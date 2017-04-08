@@ -20,7 +20,7 @@ public class GameObjectPool  {
             LList<GameObject> pool = new LList<GameObject>(poolSize);
             for(int i=0;i<poolSize;i++)
             {
-                GameObject g = GameObject.Instantiate(sourceObjects[i]);
+                GameObject g = Object.Instantiate(sourceObjects[i]);
                 g.SetActive(false);
                 pool.AddNext(g);
             }

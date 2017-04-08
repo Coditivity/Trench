@@ -65,7 +65,7 @@ public class VisualEffectsManager : MonoBehaviour {
     private const string MuzzleFlashTag = "mf";
     private const string SmokeTag = "s";
 
-    int _indexOffset = 0;
+ //   int _indexOffset = 0;
 	// Use this for initialization
 	void Start () {
 
